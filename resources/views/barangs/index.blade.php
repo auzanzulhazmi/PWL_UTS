@@ -5,9 +5,16 @@
  <div class="pull-left mt-2">
  <h2>JURUSAN TEKNOLOGI INFORMASI-POLITEKNIK NEGERI MALANG</h2>
  </div>
-    <div class="float-right my-2">
-    <a class="btn btn-success" href="{{ route('barangs.create') }}"> Input Barang</a>
-    </div>
+ <div class="row justify-content-end">
+   <div class="col-md-4">
+       <form action="{{ route('barangs.index') }}" accept-charset="UTF-8" method="get">
+           <div class="input-group">
+               <input type="text" name="cari" id="search" placeholder="Cari" class="form-control">
+               <span class="input-group-btn">
+                   <input type="submit" value="Cari" class="btn btn-primary">
+               </span>
+           </div>
+       </form>
  </div>
  </div>
  

@@ -11,13 +11,23 @@ class BarangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //fungsi eloquent menampilkan data menggunakan pagination
-        $barangs = Barang::all();
-        $posts = Barang::orderBy('Id', 'desc')->paginate(6);
+        // $barangs = Barang::all();
+        // $posts = Barang::orderBy('Id', 'desc')->paginate(6);
+        // return view('barangs.index', compact('barangs'));
+        // with('i', (request()->input('page', 1) - 1) * 5);
+        if($request->has('cari')){
+            $cari = $request->cari;
+            $barangs = Barang::where('Kode', 'like', '%'.$cari.'%')
+                ->orWhere('Nama', 'like', '%'.$cari.'%')
+                ->orWhere('Kategori', 'like', '%'.$cari.'%')
+                ->paginate(5);
+        } else {
+            $barang = Barang::paginate(5);
+        } 
         return view('barangs.index', compact('barangs'));
-        with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
