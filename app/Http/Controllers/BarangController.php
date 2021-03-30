@@ -49,7 +49,7 @@ class BarangController extends Controller
                     ]);
             
                     //fungsi eloquent untuk menambah data
-                    Mahasiswa::create($request->all());
+                    Barang::create($request->all());
             
                     //jika data berhasil ditambahkan, akan kembali ke halaman utama
                     return redirect()->route('barangs.index')
@@ -75,7 +75,7 @@ class BarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($Id)
     {
         $Barang = Barang::find($Id);
         return view('barangs.edit', compact('Barang'));
@@ -99,7 +99,7 @@ class BarangController extends Controller
             'Qty' => 'required',
             ]);
         //untuk mengupdate data inputan
-        Mahasiswa::find($Id)->update($request->all());
+        Barang::find($Id)->update($request->all());
 
         //jika data berhasil diupdate, akan kembali ke halaman utama
         return redirect()->route('barangs.index')

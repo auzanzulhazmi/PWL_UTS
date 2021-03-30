@@ -10,9 +10,9 @@ use Illuminate\Notifications\Notifiable;
 
 class Barang extends Model
 {
-    protected $table ="barang"; // Eloquent membuat model barang menyimpan record di tabel barang
+    protected $table ="barangs"; // Eloquent membuat model barang menyimpan record di tabel barang
     public $timestamps = false;
-    protected $primaryKey = 'id'; // Memanggil isi DB Dengan primarykey
+    protected $primaryKey = 'Id'; // Memanggil isi DB Dengan primarykey
     /**
     * The attributes that are mass assignable.
     * 
