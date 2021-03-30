@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Barang;
 use Illuminate\Http\Request;
 
 class BarangController extends Controller
@@ -13,7 +13,11 @@ class BarangController extends Controller
      */
     public function index()
     {
-        //
+        //fungsi eloquent menampilkan data menggunakan pagination
+        $barangs = Barang::all();
+        $posts = Barang::orderBy('Id', 'desc')->paginate(6);
+        return view('barangs.index', compact('barangs'));
+        with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -23,7 +27,7 @@ class BarangController extends Controller
      */
     public function create()
     {
-        //
+        return view('barangs.create');
     }
 
     /**
@@ -34,7 +38,22 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+                //melakukan validasi data
+                $request->validate([
+                    'Id' => 'required',
+                    'Kode' => 'required',
+                    'Nama' => 'required',
+                    'Kategori' => 'required',
+                    'Harga' => 'required',
+                    'Qty' => 'required',
+                    ]);
+            
+                    //fungsi eloquent untuk menambah data
+                    Mahasiswa::create($request->all());
+            
+                    //jika data berhasil ditambahkan, akan kembali ke halaman utama
+                    return redirect()->route('barangs.index')
+                        ->with('success', 'Barang Berhasil Ditambahkan');
     }
 
     /**
@@ -43,9 +62,11 @@ class BarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($Id)
     {
-        //
+        //menampilkan detail data dengan menemukan berdasarkan Id Barang
+        $Barang = Barang::find($Id);
+        return view('barangs.detail', compact('Barang'));
     }
 
     /**
@@ -56,7 +77,8 @@ class BarangController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Barang = Barang::find($Id);
+        return view('barangs.edit', compact('Barang'));
     }
 
     /**
@@ -66,9 +88,22 @@ class BarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $Id)
     {
-        //
+        $request->validate([
+            'Id' => 'required',
+            'Kode' => 'required',
+            'Nama' => 'required',
+            'Kategori' => 'required',
+            'Harga' => 'required',
+            'Qty' => 'required',
+            ]);
+        //untuk mengupdate data inputan
+        Mahasiswa::find($Id)->update($request->all());
+
+        //jika data berhasil diupdate, akan kembali ke halaman utama
+        return redirect()->route('barangs.index')
+        ->with('success', 'Barang Berhasil Diupdate');
     }
 
     /**
@@ -77,8 +112,11 @@ class BarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($Id)
     {
-        //
-    }
+        //untuk menghapus data
+       Barang::find($Id)->delete();
+       return redirect()->route('barangs.index')
+            -> with('success', 'Barang Berhasil Dihapus');
+   }
 }
