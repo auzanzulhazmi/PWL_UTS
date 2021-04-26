@@ -25,7 +25,7 @@ class BarangController extends Controller
                 ->orWhere('Kategori', 'like', '%'.$cari.'%')
                 ->paginate(5);
         } else {
-            $barang = Barang::paginate(5);
+            $barangs = Barang::paginate(5);
         } 
         return view('barangs.index', compact('barangs'));
     }
